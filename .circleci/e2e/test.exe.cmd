@@ -10,14 +10,14 @@ set SOCKETS_CORS=true
 
 call yarn --cwd tests/e2e install
 
-call "./release/RedisInsight-preview-win-installer.exe"
+call "./release/RedisInsight-v2-win-installer.exe"
 
 :: waiting until app auto launches
 timeout 5
 
 :: close an auto launched app
-taskkill /im RedisInsight-preview.exe /f
-taskkill /im RedisInsight-preview-win-installer.exe /f
+taskkill /im RedisInsight-v2.exe /f
+taskkill /im RedisInsight-v2-win-installer.exe /f
 
 :: run tests
 call yarn --cwd tests/e2e dotenv -e .desktop.env yarn --cwd tests/e2e test:desktop:ci:win
