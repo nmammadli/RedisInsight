@@ -346,22 +346,15 @@ jobs:
   e2e-db:
     executor: linux-executor
     steps:
-      - attach_workspace:
-          at: /tmp
       - run:
-          name: Load built docker image from workspace
-          command: |
-            docker image load -i /tmp/docker-release/docker.tar
-      - run:
-          name: Run tests
-          command: |
-            cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
-            TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
-            docker-compose \
-            -f tests/e2e/rte.docker-compose.yml \
-            -f tests/e2e/docker.web.docker-compose.yml \
-            up --abort-on-container-exit --force-recreate
-          no_output_timeout: 5m
+        name: Run tests
+      command: |
+        cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
+        TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
+        docker-compose \
+        -f tests/e2e/rte.docker-compose.yml \
+        up --abort-on-container-exit --force-recreate
+      no_output_timeout: 5m
   e2e-exe:
     executor:
       name: win/default
