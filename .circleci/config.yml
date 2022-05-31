@@ -342,7 +342,8 @@ jobs:
       - run:
           name: Run e2e tests
           command: .circleci/e2e/test.dmg.sh
-  e2e-exe:
+
+  e2e-db:
     executor: linux-executor
     steps:
       - attach_workspace:
@@ -361,6 +362,7 @@ jobs:
             -f tests/e2e/docker.web.docker-compose.yml \
             up --abort-on-container-exit --force-recreate
           no_output_timeout: 5m
+  e2e-exe:
     executor:
       name: win/default
     parameters:
@@ -1214,9 +1216,12 @@ workflows:
 #            - Build app - Windows (stage)
   test:
     jobs:
+      - e2e-db
       # e2e desktop tests on AppImage build
       - e2e-exe:
           name: E2ETest (exe) - Nightly
+          requires:
+            - e2e-db
 #          parallelism: 1
 #          report: true
 #          requires:
