@@ -346,10 +346,11 @@ jobs:
   e2e-db:
     executor: linux-executor
     steps:
+      - checkout
       - run:
           name: Run tests
           command: |
-            cd /tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
+            cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
             TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
             docker-compose \
             -f tests/e2e/rte.docker-compose.yml \
