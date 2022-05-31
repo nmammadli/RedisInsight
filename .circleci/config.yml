@@ -343,25 +343,24 @@ jobs:
           name: Run e2e tests
           command: .circleci/e2e/test.dmg.sh
   e2e-exe:
-    # executor: 
-    #   name: linux-executor
-    # steps:
-    #   - attach_workspace:
-    #       at: /tmp
-    #   - run:
-    #       name: Load built docker image from workspace
-    #       command: |
-    #         docker image load -i /tmp/docker-release/docker.tar
-    #   - run:
-    #       name: Run tests
-    #       command: |
-    #         cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
-    #         TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
-    #         docker-compose \
-    #         -f tests/e2e/rte.docker-compose.yml \
-    #         -f tests/e2e/docker.web.docker-compose.yml \
-    #         up --abort-on-container-exit --force-recreate
-    #       no_output_timeout: 5m
+    executor: linux-executor
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Load built docker image from workspace
+          command: |
+            docker image load -i /tmp/docker-release/docker.tar
+      - run:
+          name: Run tests
+          command: |
+            cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
+            TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
+            docker-compose \
+            -f tests/e2e/rte.docker-compose.yml \
+            -f tests/e2e/docker.web.docker-compose.yml \
+            up --abort-on-container-exit --force-recreate
+          no_output_timeout: 5m
     executor:
       name: win/default
     parameters:
