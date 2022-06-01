@@ -1218,12 +1218,9 @@ workflows:
 #            - Build app - Windows (stage)
   test:
     jobs:
-      - e2e-db
       # e2e desktop tests on AppImage build
       - e2e-exe:
           name: E2ETest (exe) - Nightly
-          requires:
-            - e2e-db
 #          parallelism: 1
 #          report: true
 #          requires:
