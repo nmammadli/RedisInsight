@@ -381,6 +381,7 @@ jobs:
             docker-compose \
             -f tests/e2e/rte.docker-compose.yml \
             up -d --force-recreate
+          shell: bash.exe
       - run: choco install nodejs --version=15.14.0
       - run:
           name: Download build from S3
