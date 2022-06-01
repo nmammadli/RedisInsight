@@ -374,6 +374,12 @@ jobs:
 #      - attach_workspace:
 #          at: .
       - run:
+          name: Install Docker Compose
+          command: |
+            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            chmod +x ~/docker-compose
+            docker-compose --version
+      - run:
           name: Deploy databases
           command: |
             cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
