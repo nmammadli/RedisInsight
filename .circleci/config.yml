@@ -354,8 +354,7 @@ jobs:
             TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
             docker-compose \
             -f tests/e2e/rte.docker-compose.yml \
-            -f tests/e2e/local.web.docker-compose.yml \
-            up --abort-on-container-exit --force-recreate
+            up -d --force-recreate
           no_output_timeout: 5m
   e2e-exe:
     executor:
