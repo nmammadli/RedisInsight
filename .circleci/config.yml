@@ -348,8 +348,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Run tests
+          name: Deploy databases
           command: |
+            HOST="$(hostname -I)"
             cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
             TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
             docker-compose \
@@ -377,7 +378,6 @@ jobs:
       - run:
           name: Download build from S3
           command: |
-            brew install wget
             mkdir -p release && cd release && curl -O https://s3.amazonaws.com/redisinsight.download/public/upgrades/RedisInsight-v2-win-installer.exe
           shell: bash.exe
       - run:
