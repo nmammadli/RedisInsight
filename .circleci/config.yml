@@ -343,19 +343,19 @@ jobs:
           name: Run e2e tests
           command: .circleci/e2e/test.dmg.sh
 
-  e2e-db:
-    executor: linux-executor
-    steps:
-      - checkout
-      - run:
-          name: Deploy databases
-          command: |
-            cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
-            TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
-            docker-compose \
-            -f tests/e2e/rte.docker-compose.yml \
-            up -d --force-recreate
-          no_output_timeout: 5m
+  # e2e-db:
+  #   executor: linux-executor
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Deploy databases
+  #         command: |
+  #           cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
+  #           TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
+  #           docker-compose \
+  #           -f tests/e2e/rte.docker-compose.yml \
+  #           up -d --force-recreate
+  #         no_output_timeout: 5m
   e2e-exe:
     executor:
       name: win/default
@@ -373,6 +373,15 @@ jobs:
       - checkout
 #      - attach_workspace:
 #          at: .
+      - run:
+          name: Deploy databases
+          shell: powershell.exe
+          command: |
+            cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
+            TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
+            docker-compose \
+            -f tests/e2e/rte.docker-compose.yml \
+            up -d --force-recreate
       - run: choco install nodejs --version=15.14.0
       - run:
           name: Download build from S3
