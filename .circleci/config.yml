@@ -379,7 +379,7 @@ jobs:
             curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
             chmod +x ~/docker-compose
             docker-compose --version
-            shell: bash.exe
+          shell: bash.exe
       - run:
           name: Deploy databases
           command: |
