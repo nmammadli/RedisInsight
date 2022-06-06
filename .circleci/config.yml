@@ -377,7 +377,7 @@ jobs:
           name: Deploy oss-standalone db
           command: |
             docker run \ 
-            --name oss-standalone \
+      #      --name oss-standalone \
             -d \
             -p 8100:6379 \
             redislabs/redismod \
