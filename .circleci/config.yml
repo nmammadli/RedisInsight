@@ -374,21 +374,28 @@ jobs:
 #      - attach_workspace:
 #          at: .
       - run:
-          name: Install Docker Compose
+          name: Deploy oss-standalone db
           command: |
-            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
-            chmod +x ~/docker-compose
-            docker-compose --version
+            docker run \ 
+            --name oss-standalone \
+            -d \
+            -p 8100:6379 \
+            redislabs/redismod \
+            --loadmodule /usr/lib/redis/modules/redisearch.so \
+            --loadmodule /usr/lib/redis/modules/redisgraph.so \
+            --loadmodule /usr/lib/redis/modules/redistimeseries.so \
+            --loadmodule /usr/lib/redis/modules/rejson.so \
+            --loadmodule /usr/lib/redis/modules/redisbloom.so \
           shell: bash.exe
-      - run:
-          name: Deploy databases
-          command: |
-            cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
-            TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
-            docker-compose \
-            -f tests/e2e/rte.docker-compose.yml \
-            up -d --force-recreate
-          shell: bash.exe
+      # - run:
+      #     name: Deploy databases
+      #     command: |
+      #       cd tests/e2e && export TEST_FILES=$(circleci tests glob "tests/**/*.e2e.ts" | circleci tests split) && cd ../..
+      #       TEST_BIG_DB_DUMP=$TEST_BIG_DB_DUMP \
+      #       docker-compose \
+      #       -f tests/e2e/rte.docker-compose.yml \
+      #       up -d --force-recreate
+      #     shell: bash.exe
       - run: choco install nodejs --version=15.14.0
       - run:
           name: Download build from S3
