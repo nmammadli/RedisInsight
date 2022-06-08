@@ -357,9 +357,9 @@ jobs:
   #           up -d --force-recreate
   #         no_output_timeout: 5m
   e2e-exe:
-    executor:
+    executor: win/server-2022
 #      name: win/default
-      image: 'windows-server-2022-gui:edge'
+#      image: 'windows-server-2022-gui:edge'
     parameters:
       report:
         description: Send report for test run to slack
