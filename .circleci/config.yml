@@ -121,7 +121,8 @@ aliases:
     key: v1-ui-deps-{{ checksum "redisinsight/api/yarn.lock" }}
 
 orbs:
-  win: circleci/windows@2.4.0
+  win: circleci/windows@4.1
+#  win: circleci/windows@2.4.0
   node: circleci/node@4.4.0
   aws: circleci/aws-cli@2.0.3
 
