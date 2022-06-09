@@ -121,8 +121,7 @@ aliases:
     key: v1-ui-deps-{{ checksum "redisinsight/api/yarn.lock" }}
 
 orbs:
-  win: circleci/windows@4.1
-#  win: circleci/windows@2.4.0
+  win: circleci/windows@2.4.0
   node: circleci/node@4.4.0
   aws: circleci/aws-cli@2.0.3
 
@@ -358,9 +357,8 @@ jobs:
   #           up -d --force-recreate
   #         no_output_timeout: 5m
   e2e-exe:
-    executor: win/server-2022
-#      name: win/default
-#      image: 'windows-server-2022-gui:edge'
+    executor:
+      name: win/default
     parameters:
       report:
         description: Send report for test run to slack
