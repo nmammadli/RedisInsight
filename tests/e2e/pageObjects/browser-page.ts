@@ -568,6 +568,7 @@ export class BrowserPage {
      * @param keyNames The names of the key array
      */
     async deleteKeysByNames(keyNames: string[]): Promise<void> {
+        await t.click(this.patternModeBtn)
         for (const name of keyNames) {
             await this.deleteKeyByName(name);
         }

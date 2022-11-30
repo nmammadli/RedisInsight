@@ -259,6 +259,8 @@ test
         await myRedisDatabasePage.clickOnDBByName(simpleDbName); // click standalone database
 
         await cliPage.sendCommandInCli(`FT.DROPINDEX ${indexNameSimpleDb}`);
+
+        await browserPage.deleteKeysByNames(keyNames);
         // Clear and delete database
         await deleteStandaloneDatabaseApi(ossStandaloneConfig);
         await deleteStandaloneDatabaseApi(ossStandaloneBigConfig);
@@ -269,7 +271,7 @@ test
         */
 
         // key names to validate in the standalone database
-        keyNames = [`${keyNameSimpleDb}:1`, `${keyNameSimpleDb}:2`, `${keyNameSimpleDb}:3`, `${keyNameSimpleDb}:4`, `${keyNameSimpleDb}:5`];
+        keyNames = [`${keyNameSimpleDb}:1`, `${keyNameSimpleDb}:2`, `${keyNameSimpleDb}:3`];
 
         /* 
             create index as name ${indexNameBigDb} 
@@ -294,8 +296,6 @@ test
             `HSET ${keyNames[0]} "name" "Hall School" "description" " Spanning 10 states" "class" "independent" "type" "traditional" "address_city" "London" "address_street" "Manor Street" "students" 342 "location" "51.445417, -0.258352"`,
             `HSET ${keyNames[1]} "name" "Garden School" "description" "Garden School is a new outdoor" "class" "state" "type" "forest; montessori;" "address_city" "London" "address_street" "Gordon Street" "students" 1452 "location" "51.402926, -0.321523"`,
             `HSET ${keyNames[2]} "name" "Gillford School" "description" "Gillford School is a centre" "class" "private" "type" "democratic; waldorf" "address_city" "Goudhurst" "address_street" "Goudhurst" "students" 721 "location" "51.112685, 0.451076"`,
-            `HSET ${keyNames[3]} "name" "Box School" "description" "Top School is a new outdoor" "class" "state" "type" "forest; montessori;" "address_city" "London" "address_street" "Gordon Street" "students" 1452 "location" "51.402926, -0.321523"`,
-            `HSET ${keyNames[4]} "name" "Bill School" "description" "Billing School is a centre" "class" "private" "type" "democratic; waldorf" "address_city" "Goudhurst" "address_street" "Goudhurst" "students" 721 "location" "51.112685, 0.451076"`,
             `FT.CREATE ${indexNameSimpleDb} ON HASH PREFIX 1 "${keyNameSimpleDb}:" SCHEMA name TEXT NOSTEM description TEXT class TAG type TAG SEPARATOR ";" address_city AS city TAG address_street AS address TEXT NOSTEM students NUMERIC SORTABLE location GEO`
         ];
         // Create 5 keys and index
